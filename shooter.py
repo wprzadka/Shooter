@@ -80,7 +80,7 @@ class Shotgun(Gun, Drop):
                 cos_x = math.cos(x)
 
                 rotate = np.array([[cos_x, -sin_x],
-                                      [sin_x, cos_x]])
+                                    [sin_x, cos_x]])
 
                 trajectory = np.matmul(rotate, aim)
                 # print(trajectory)
@@ -100,7 +100,6 @@ class Shotgun(Gun, Drop):
         pygame.draw.circle(win, (220, 220, 20), [int(self.x) - 5, int(self.y)], 2)
         pygame.draw.circle(win, (220, 220, 20), [int(self.x), int(self.y)], 2)
         pygame.draw.circle(win, (220, 220, 20), [int(self.x) + 5, int(self.y)], 2)
-
 
 
 class MachineGun(Gun, Drop):
@@ -141,6 +140,7 @@ class MachineGun(Gun, Drop):
         for b in self.bullets:
             pygame.draw.circle(win, (220, 220, 20), [int(b.x), int(b.y)], 2)
 
+
 class Laser(Gun, Drop):
 
     ammo = 20
@@ -176,6 +176,7 @@ class Laser(Gun, Drop):
         pygame.draw.circle(win, (0, 0, 0), [int(self.x), int(self.y)], self.size, 1)
 
         pygame.draw.line(win, (20, 60, 255), [int(self.x) - 5, int(self.y)], [int(self.x) + 5, int(self.y)], 3)
+
 
 class Character:
     velocity = 5
@@ -318,13 +319,6 @@ class DropSpawner:
             self.drops.append(a)
             self.last_spawn = pygame.time.get_ticks()
 
-"""
-class ShotgunDrop(Drop):
-
-    def draw(self, win):
-        pygame.draw.circle(win, (0, 255, 0), [int(self.x), int(self.y)], self.size - 1, 2)
-        pygame.draw.circle(win, (0, 0, 0), [int(self.x), int(self.y)], self.size, 1)
-"""
 
 class Enemy:
     x = 0
@@ -445,8 +439,6 @@ class Dodger(Enemy):
             self.params[1] += self.delta[1]
             # self.params[1] = math.sqrt(math.fabs(Enemy.size**2 - self.params[0]**2))
 
-
-
             # test
             pygame.draw.lines(win, (255, 255, 0), True, shape)
         else:
@@ -560,7 +552,7 @@ def update_window():
         e.draw(window)
 
     for e in Spawner.killed:
-         e.draw(window)
+        e.draw(window)
 
     for d in DropSpawner.drops:
         d.dropDraw(window)
@@ -571,18 +563,17 @@ def update_window():
 def collisions():
     for e in nest.enemies:
         for b in player.gun.bullets:
-         if b.x > e.x - e.size and b.x < e.x + e.size:
-             if b.y > e.y - e.size and b.y < e.y + e.size:
-                e.hit()
-                player.points += 1
-                pygame.display.update()
-                nest.killed.append(e)
-                try:
-                    nest.enemies.remove(e)
-                    player.gun.bullets.remove(b)
-                except:
-                    print("remove err")
-
+            if e.x - e.size < b.x < e.x + e.size:
+                if e.y - e.size < b.y < e.y + e.size:
+                    e.hit()
+                    player.points += 1
+                    pygame.display.update()
+                    nest.killed.append(e)
+                    try:
+                        nest.enemies.remove(e)
+                        player.gun.bullets.remove(b)
+                    except:
+                        print("remove err")
 
         if player.x + player.size > e.x - e.size and player.x - player.size < e.x + e.size:
             if player.y + player.size > e.y - e.size and player.y - player.size < e.y + e.size:
@@ -594,6 +585,7 @@ def collisions():
             if player.y + player.size > loot.y - loot.size and player.y - player.size < loot.y + loot.size:
                 player.gun = loot
                 support.drops.remove(loot)
+
 
 # Start of program
 win_size = [1200, 900]
