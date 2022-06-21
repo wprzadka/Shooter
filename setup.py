@@ -10,6 +10,6 @@ setup(
     url='https://github.com/Viking502/Shooter',
     install_requires=[
         "pygame==1.9.6",
-        "numpy==1.16.4",
+        "numpy==1.22.0",
     ]
 )
